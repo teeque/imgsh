@@ -1,4 +1,4 @@
-const config = require('config.json')
+const config = require('./config')
 
 /* Required  Modules */
 const express = require('express')
@@ -8,7 +8,7 @@ const hbs = require('express-handlebars')
 const mongoose = require('mongoose')
 const multer = require('multer')
 const ShortUniqueId = require('short-unique-id')
-const uid = new ShortUniqueId({ length: 5 })
+const uid = new ShortUniqueId({ length: config.uidlength })
 
 /* MongoDB Schemas */
 const Image = require('./models/Image')
@@ -18,10 +18,9 @@ const Page = require('./models/Page')
 /* App Variables */
 const app = express()
 app.disable('x-powered-by')
-const port = process.env.PORT || '8000'
 main().catch((err) => console.log(err))
 async function main() {
-  await mongoose.connect('mongodb://localhost:27017/test')
+  await mongoose.connect(config.mongodb.connectionstring)
 }
 
 /* App Middleware */
@@ -56,7 +55,7 @@ const uploadFilter = function (req, file, cb) {
   }
 }
 const fnamegen = function (req, file, cb) {
-  file.filename = uid() + path.extname(file.originalname).toLowerCase()
+  file.filename = uid()
   cb(null, file.filename)
 }
 
@@ -109,8 +108,8 @@ app.get('/:img', async (req, res) => {
 })
 
 /* Server Activation */
-app.listen(port, () => {
-  console.log(`Listening to requests on http://localhost:${port}`)
+app.listen(config.port, () => {
+  console.log(`Listening to requests on http://localhost:${config.port}`)
 })
 
 /* Helper Functions */
