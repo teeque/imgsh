@@ -20,6 +20,8 @@ const app = express()
 app.disable('x-powered-by')
 main().catch((err) => console.log(err))
 async function main() {
+  // Deprecation warning
+  mongoose.set('strictQuery', false)
   await mongoose.connect(config.mongodb.connectionstring)
 }
 
@@ -108,8 +110,8 @@ app.get('/:img', async (req, res) => {
 })
 
 /* Server Activation */
-app.listen(config.port, () => {
-  console.log(`Listening to requests on http://localhost:${config.port}`)
+app.listen(config.app.port, () => {
+  console.log(`Listening to requests on http://localhost:${config.app.port}`)
 })
 
 /* Helper Functions */

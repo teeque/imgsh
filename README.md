@@ -4,4 +4,5 @@ Anonymous Image and Text uploading Platform with autodelete and sharex integrati
 
 ## Setup
 
-After running npm install make sure to take a look at the created config.json to set your variables and settings accordingly.
+After running npm install make sure to take a look at the config.js to set your desired settings accordingly.
+NOTE: Automatic creation is still an outstanding feature that has to be implemented. To get started rename the existing config_example.js into config.js to get going after installation.
