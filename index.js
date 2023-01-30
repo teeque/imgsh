@@ -23,6 +23,7 @@ async function main() {
   // Deprecation warning
   mongoose.set('strictQuery', false)
   await mongoose.connect(config.mongodb.connectionstring)
+  if (mongoose.connection.readyState == 1) console.log('Connected to Database.')
 }
 
 /* App Middleware */
