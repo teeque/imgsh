@@ -48,7 +48,6 @@ span, label {
 .view {
   background-size: cover;
   background: #34495E;
-  
 }
 
 #code {
@@ -69,17 +68,17 @@ h1.banner{
 .message {
   display: grid;
   margin: 0 3rem;
-  padding: 0 1rem;
+  padding: 0 2rem;
   text-align: center;
   justify-content: center;
   align-content: center;
-  min-height: 85vh;
+  height: 80vh;
   background-color: #2C3E50;
   border-bottom: var(--ui-shadow-border);
   box-shadow: var(--ui-shadow);
 }
 .message > .title h1 {
-    font-size: 8rem;
+    font-size: 2rem;
   }
 .message textarea {
     box-sizing: inline-block;
@@ -90,15 +89,17 @@ h1.banner{
     padding: 8px;
     font-size: 1.1rem;
 }
+.message .title {
+  margin-top: 1rem;
+}
 
 .container {
     display: grid;
     grid-template-columns: 2fr 1fr;
-    margin-top: 0.7em;
 }
 .container input[type="password"] {
     height: 34px;
-    width: 256px;
+    width: 200px;
 }
 .container .two button {
     background-color: #2ECC71;
@@ -118,8 +119,10 @@ h1.banner{
 }
 
 .radiocontainer {
+ display: flex;
  text-align: center;
  justify-self: start;
+ padding-bottom: 1.5em;
 }
 .radiocontainer input[type="radio"] {
   opacity: 0;
@@ -133,6 +136,7 @@ h1.banner{
     width: 48px;
     border: 1px solid black;
     border-radius: 2px;
+    margin-right: 8px;
 }
 .radiocontainer input[type="radio"]:checked + label {
     background-color:#16A085;
@@ -168,7 +172,7 @@ h1.banner{
 }
 
 
-@media only screen and (max-width: 1560px) {
+@media only screen and (max-width: 1300px) {
   #code {
       display: none!important;
   }
