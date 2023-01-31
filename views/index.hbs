@@ -1,17 +1,18 @@
-<div class="main">
+<div class="main-container">
 <!-- Left Area -->
-<div class="view" id="imgsh">
+<div class="wrapper">
     <h1 class="banner unselectable">imgsh</h1>
-    <div class="message">
+    <div class="innercontainer" id="imgsh">
         <!-- Dropbox -->
-        <div class="drop-zone">
+        <div class="drop-zone" id="drop-zone">
             <form action="/upload" method="post" enctype="multipart/form-data"></form>
             <input type="file" name="myFile" class="drop-zone__input" id="fileA" onchange="fileChange();">
-            <div>
+            <div class="drop-zone-info">
                 <span class="drop-zone__prompt">Drop file here or click to upload</span><br>
                 <div id="fileName"></div>
                 <div id="fileSize"></div>
-                <progress id="progress" style="margin-top:20px"></progress> <span id="prozent"></span>
+                <progress id="progress" style=""></progress> <span id="prozent"></span>
+                
             </div>
             </form>
         </div>
@@ -19,29 +20,26 @@
 </div>
 
 <!-- Right Area -->
-<div class="view" id="code">
+<div class="wrapper" id="code">
     <h1 class="banner unselectable" style="color: white">codeshr</h1>
-    <div class="message" id="codeM">
-        <div class="header">
-            <h3 class="unselectable">Insert your code / text you want to share</h3>
-        </div>
-        <div class="title">
-            <textarea name="textInput" id="textInput" rows="80" cols="100"></textarea>
-        </div> 
-        <div class="title">
-            <div class="container controls">
+    <div class="innercontainer" id="codeM">
+        <form id="codeForm">
+            <div class="header">
+                <h3 class="unselectable">Insert your code / text you want to share</h3>
+            </div>
+            <textarea name="codeInput" id="codeInput"></textarea>
+            <div class="code-control-wrapper">
                 <div class="radiocontainer">
-                    <input type="radio" name="days" id="1d" checked="true"><label for="1d">1d</label>
-                    <input type="radio" name="days" id="3d"><label for="3d">3d</label>
-                    <input type="radio" name="days" id="7d"><label for="7d">7d</label>
-                    <input type="password" name="password" id="pwd" placeholder="Insert Password (optional)">
+                    <input type="radio" name="days" id="1d" checked="true"><label for="1d">1day</label>
+                    <input type="radio" name="days" id="3d"><label for="3d">3days</label>
+                    <input type="radio" name="days" id="7d"><label for="7d">7days</label>
+                    <input type="password" name="password" id="pwd" placeholder="Password (optional)" autocomplete="off">
                 </div>
-                <div class="two">
+                <div class="submit-btn">
                     <button type="submit">Submit</button>
-                </div>
-                
-            </div>            
-        </div>       
+                </div>   
+            </div>
+        </form>                  
     </div>
 </div>
 </div>
