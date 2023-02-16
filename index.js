@@ -58,13 +58,17 @@ const uploadFilter = function (req, file, cb) {
   }
 }
 const fnamegen = function (req, file, cb) {
-  file.filename = uid()
+  file.filename = uid() + path.extname(file.originalname).toLowerCase()
   cb(null, file.filename)
 }
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, './uploads/')
+    const uploadfolder = './uploads/'
+    if (!fs.existsSync(uploadfolder)) {
+      fs.mkdirSync(uploadfolder)
+    }
+    cb(null, uploadfolder)
   },
   filename: fnamegen,
 })
@@ -85,6 +89,13 @@ app.post('/upload', upload.single('file'), async (req, res) => {
       uploaderIP: req.socket.remoteAddress,
       path: req.file.path,
     })
+    const domain = req.get('origin') + '/'
+    res
+      .status(201)
+      .send({
+        url: domain + img.shorturl,
+        removelink: domain + img.shorturl + '?delete=true',
+      })
   }
 })
 
