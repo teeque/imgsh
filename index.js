@@ -90,12 +90,10 @@ app.post('/upload', upload.single('file'), async (req, res) => {
       path: req.file.path,
     })
     const domain = req.get('origin') + '/'
-    res
-      .status(201)
-      .send({
-        url: domain + img.shorturl,
-        removelink: domain + img.shorturl + '?delete=true',
-      })
+    res.status(201).send({
+      url: domain + img.shorturl,
+      removelink: domain + img.shorturl + '?delete=true',
+    })
   }
 })
 
@@ -115,9 +113,13 @@ app.get('/delete/:img', async (req, res) => {
 app.get('/:img', async (req, res) => {
   if (req.params.img !== null && req.params.img.length == 5) {
     let img = await Image.findOne({ shorturl: req.params.img })
-    img.hits++
-    await img.save()
-    res.render('img', { title: setTitle(req), imgsrc: img.filename })
+    //img.hits++
+    //await img.save()
+    console.log(img)
+    res.render('img', {
+      title: `imgsh - ${img.shorturl}`,
+      imgsrc: img.filename,
+    })
   }
 })
 
