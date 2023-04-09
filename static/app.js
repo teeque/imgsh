@@ -109,6 +109,26 @@ function uploadFile() {
     if (client.readyState === 4) {
       const res = JSON.parse(client.response)
       console.log(res)
+      modalContent.replaceChildren()
+      successModal.style.display = 'block'
+      const resParagraph = document.createElement('a')
+      resParagraph.href = res.url
+      resParagraph.innerText = res.url.toString()
+      modalContent.appendChild(resParagraph)
     }
   }
+}
+
+// Modal Section
+
+// Get the modal
+const modalContent = document.getElementById('modal-container')
+const successModal = document.getElementById('successModal')
+
+// Get the <span> element that closes the modal
+const closeSpan = document.getElementsByClassName('closeSpan')[0]
+
+// When the user clicks on <span> (x), close the modal
+closeSpan.onclick = function () {
+  successModal.style.display = 'none'
 }
