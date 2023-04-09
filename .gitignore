@@ -3,3 +3,4 @@ uploads
 package-lock.json
 config.js
 .DS_Store
+/views/index_backup.hbs
