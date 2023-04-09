@@ -92,7 +92,7 @@ app.post('/upload', upload.single('file'), async (req, res) => {
     const domain = req.get('origin') + '/'
     res.status(201).send({
       url: domain + img.shorturl,
-      removelink: domain + img.shorturl + '?delete=true',
+      removelink: domain + 'delete/' + img.shorturl,
     })
   }
 })
@@ -106,20 +106,25 @@ app.get('/admin/:id?', (req, res) => {
 
 app.get('/delete/:img', async (req, res) => {
   const img = await Image.findOne({ shorturl: req.params.img })
+  if (!img) {
+    return res.redirect('/')
+  }
   img.delete()
-  res.status(200).send({ message: JSON.stringify(img) })
+  res.status(200).send({ message: 'File sucessfully deleted: ' + img.origName })
 })
 
 app.get('/:img', async (req, res) => {
   if (req.params.img !== null && req.params.img.length == 5) {
     let img = await Image.findOne({ shorturl: req.params.img })
-    //img.hits++
-    //await img.save()
-    console.log(img)
-    res.render('img', {
-      title: `imgsh - ${img.shorturl}`,
-      imgsrc: img.filename,
-    })
+    if (img) {
+      img.hits = img.hits + 1
+      await img.save()
+      res.render('img', {
+        title: `imgsh - ${img.shorturl}`,
+        imgsrc: img.filename,
+      })
+    }
+    if (!img) return res.redirect('/')
   }
 })
 
