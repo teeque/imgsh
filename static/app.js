@@ -108,13 +108,20 @@ function uploadFile() {
   client.onreadystatechange = () => {
     if (client.readyState === 4) {
       const res = JSON.parse(client.response)
-      console.log(res)
-      modalContent.replaceChildren()
       successModal.style.display = 'block'
-      const resParagraph = document.createElement('a')
-      resParagraph.href = res.url
-      resParagraph.innerText = res.url.toString()
-      modalContent.appendChild(resParagraph)
+      document.getElementById('urlInput').value = res.url
+      document.getElementById('deleteurlInput').value = res.removelink
+      document.querySelectorAll('.copy-link').forEach((copyLinkParent) => {
+        const inputField = copyLinkParent.querySelector('.copy-link-input')
+        const copyButton = copyLinkParent.querySelector('.copy-link-button')
+
+        inputField.addEventListener('focus', () => inputField.select())
+
+        copyButton.addEventListener('click', () => {
+          inputField.select()
+          navigator.clipboard.writeText(inputField.value)
+        })
+      })
     }
   }
 }
@@ -122,7 +129,6 @@ function uploadFile() {
 // Modal Section
 
 // Get the modal
-const modalContent = document.getElementById('modal-container')
 const successModal = document.getElementById('successModal')
 
 // Get the <span> element that closes the modal
