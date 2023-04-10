@@ -23,10 +23,17 @@
 <!-- The Modal -->
 <div id="successModal" class="modal">
   <!-- Modal content -->
-  <div class="modal-content" id="modal-content">
-    <span class="closeSpan">&times;</span>
+  <div class="modal-content center" id="modal-content">
     <div id="modal-container">
-        
+      <span class="closeSpan">&times;</span>
+      <div class="copy-link">
+        <input type="text" class="copy-link-input" id="urlInput" placeholder="URL to Image" readonly>
+        <button type="button" class="copy-link-button">copy</button>
+      </div>
+      <div class="copy-link">
+        <input type="text" class="copy-link-input" id="deleteurlInput" placeholder="Delete URL" readonly>
+        <button type="button" class="copy-link-button">copy</button>
+      </div>
     </div>
   </div>
 </div>
