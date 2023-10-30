@@ -1,8 +1,12 @@
-@import url('https://fonts.googleapis.com/css?family=Raleway:800|Merriweather+Sans|Share+Tech+Mono');
+@font-face {
+  font-family: 'Manrope';
+  src:  url('/fonts/manrope-regular.woff2') format('woff2'),
+        url('/fonts/manrope-regular.woff') format('woff');
+}
 
 * {
   box-sizing: border-box;
-  font-family: 'Share Tech Mono', 'Roboto', monospace;
+  font-family: 'Manrope', sans-serif;
 }
 body {
   margin: 0;
@@ -13,6 +17,7 @@ h1,
 h2,
 h3 {
   font-size: 1.3rem;
+  letter-spacing: 0.3rem;
   text-transform: uppercase;
   color: white;
   text-align: center;
@@ -223,10 +228,11 @@ input:focus {
 .closeSpan {
   position: absolute;
   top: 0px;
-  right: 8px;
+  right: 12px;
   color: #aaa;
   font-size: 2rem;
   font-weight: bold;
+  text-decoration: none;
 }
 
 .closeSpan:hover,
