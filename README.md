@@ -1,3 +1,5 @@
+WORK IN PROGRESS
+
 # imgsh
 
 Anonymous Image and Text uploading Platform with autodelete and sharex integration.
