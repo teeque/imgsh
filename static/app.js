@@ -41,7 +41,7 @@ document.querySelectorAll('.drop-zone__input').forEach((inputElement) => {
 })
 
 function fileChange() {
-  let fileList = document.getElementById('fileA').files
+  let fileList = document.getElementById('file').files
   let file = fileList[0]
 
   if (!file) return
@@ -58,9 +58,9 @@ let client = null
 let maxSize = 1024 * 1000 * 25
 
 function uploadFile() {
-  let file = document.getElementById('fileA').files[0]
+  let file = document.getElementById('file').files[0]
   if (file && !file.type.match('image.*')) {
-    // TODO: filemismatch handler
+    return
   }
   if (file.size > maxSize) {
     // TODO: clientside sizemismatch handler

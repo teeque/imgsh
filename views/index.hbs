@@ -1,12 +1,18 @@
 <div class="main-container">
 <!-- Left Area -->
 <div class="wrapper">
+  
+  <div class="flexthis">
     <h1 class="banner unselectable">imgsh</h1>
+    <a href="/code" class="pushright changepage">></a>
+
+  </div>
+    
     <div class="innercontainer" id="imgsh">
         <!-- Dropbox -->
         <div class="drop-zone" id="drop-zone">
             <form action="/upload" method="post" enctype="multipart/form-data"></form>
-            <input type="file" name="myFile" class="drop-zone__input" id="fileA" onchange="fileChange();">
+            <input type="file" name="myFile" class="drop-zone__input" id="file" onchange="fileChange();">
             <div class="drop-zone-info">
                 <div id="fileName">Drop file here or click to upload</div>
                 <div id="fileSize"></div>
@@ -15,6 +21,7 @@
             </form>
         </div>
     </div>
+    <div class="footer"><p class="unselectable">&copy; IMGSH 2024</p><a href="https://github.com/teeque87/imgsh">Github</a></div>
 </div>
 
 </div>

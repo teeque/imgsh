@@ -9,11 +9,12 @@ const mongoose = require('mongoose')
 const multer = require('multer')
 const ShortUniqueId = require('short-unique-id')
 const uid = new ShortUniqueId({ length: config.uidlength })
+const cron = require('node-cron')
+
 
 /* MongoDB Schemas */
 const Image = require('./models/Image')
 const Code = require('./models/Code')
-const Page = require('./models/Page')
 
 /* App Variables */
 const app = express()
@@ -81,6 +82,10 @@ app.get('/', (req, res) => {
 
 app.post('/upload', upload.single('file'), async (req, res) => {
 	if (req.file) {
+		const maxFileSize = 5 * 1024 * 1024; // 5 MiB
+		if (req.file.size > maxFileSize) {
+			return res.status(400).send({ message: 'File size exceeds the maximum limit of 5 MB.' });
+		}
 		const img = await Image.create({
 			filename: req.file.filename,
 			origName: req.file.originalname,
@@ -94,14 +99,9 @@ app.post('/upload', upload.single('file'), async (req, res) => {
 			url: domain + img.shorturl,
 			removelink: domain + 'delete/' + img.shorturl,
 		})
+	} else {
+		res.status(400).send({ message: 'No file uploaded or invalid file type.' });
 	}
-})
-
-app.get('/admin/:id?', (req, res) => {
-	if (req.params.id == 'enter') {
-		res.render('admin', { title: setTitle(req) })
-	}
-	res.render('index', { title: setTitle(req) })
 })
 
 app.get('/delete/:img', async (req, res) => {
@@ -125,6 +125,27 @@ app.get('/:img', async (req, res) => {
 			})
 		}
 		if (!img) return res.redirect('/')
+	}
+})
+
+cron.schedule('*/5 * * * *', async () => {
+	const maxCreatedAtAge = 7 * 24 * 60 * 60 * 1000 // 7 days in milliseconds
+	const maxLastHitExtension = 3 * 24 * 60 * 60 * 1000 // 3 days in milliseconds
+
+	const now = Date.now()
+	const images = await Image.find()
+
+	for (const img of images) {
+		const createdAtAge = now - new Date(img.createdAt).getTime()
+		const lastHitAge = now - new Date(img.lasthit).getTime()
+
+		// Calculate the effective age limit based on hits
+		const effectiveAgeLimit = maxCreatedAtAge + Math.floor(lastHitAge / maxLastHitExtension) * maxLastHitExtension
+
+		if (createdAtAge > effectiveAgeLimit) {
+			await img.delete()
+			console.log(`Deleted image: ${img.origName}`)
+		}
 	}
 })
 
