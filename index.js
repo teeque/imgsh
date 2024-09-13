@@ -133,22 +133,16 @@ app.get('/:img', async (req, res) => {
 })
 
 cron.schedule('*/5 * * * *', async () => {
-	const maxCreatedAtAge = 7 * 24 * 60 * 60 * 1000 // 7 days in milliseconds
-	const maxLastHitExtension = 3 * 24 * 60 * 60 * 1000 // 3 days in milliseconds
-
+	const maxLastHitAge = 7 * 24 * 60 * 60 * 1000 // 7 days in milliseconds
 	const now = Date.now()
+	console.log(new Date().toLocaleString() + ': Running Image Cleanup Job')
 	const images = await Image.find()
 
 	for (const img of images) {
-		const createdAtAge = now - new Date(img.createdAt).getTime()
 		const lastHitAge = now - new Date(img.lasthit).getTime()
-
-		// Calculate the effective age limit based on hits
-		const effectiveAgeLimit = maxCreatedAtAge + Math.floor(lastHitAge / maxLastHitExtension) * maxLastHitExtension
-
-		if (createdAtAge > effectiveAgeLimit) {
+		if (lastHitAge > maxLastHitAge) {
 			await img.delete()
-			console.log(`Deleted image: ${img.origName}`)
+			console.log(`Deleted image at /${img.shorturl} Filename: ${img.origName}`)
 		}
 	}
 })
