@@ -26,7 +26,7 @@ span,
 label,
 a,
 p {
-	color: white;
+	color: lightgrey;
 }
 p {
 	margin: 0;
@@ -67,11 +67,12 @@ p {
 	border: 2px solid black;
 	background-color: #2ecc71;
 	border-radius: .25rem;
-	transition: 0.5s ease;
+	transition: 0.2s ease-in-out;
 }
 
 .changepage:hover{
 	background-color: #27ae60;
+	border-color: white;
 	color: white;
 }
 
@@ -79,7 +80,7 @@ a:hover{
 	color: #27ae60;
 }
 #code {
-	background-color: #2ecc71 !important;
+	background-color: #17bd5c !important
 }
 .banner{
 	margin: 0 auto;
@@ -316,7 +317,18 @@ input:focus {
 	display: flex;
 	justify-content: space-between;
 	color: white;
-	font-weight: 600;
+	font-weight: 900;
 	font-size: 1rem;
 	padding: 1rem 2rem;
+}
+
+.code {
+	background-color: #2d3e37 !important
+}
+
+.code .banner {
+	color: #1bf375;
+}
+.code .changepage {
+	background-color: #3498db;
 }

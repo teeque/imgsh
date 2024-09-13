@@ -77,7 +77,11 @@ const upload = multer({ storage: storage, fileFilter: uploadFilter })
 
 /* Routes Definitions */
 app.get('/', (req, res) => {
-	res.render('index', { title: setTitle(req) })
+	res.render('imageupload', { title: setTitle(req) })
+})
+
+app.get('/code', (req, res) => {
+	res.render('code', { title: 'codesh' })
 })
 
 app.post('/upload', upload.single('file'), async (req, res) => {
