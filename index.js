@@ -123,7 +123,7 @@ app.get('/:img', async (req, res) => {
 		if (img) {
 			img.hits = img.hits + 1
 			await img.save()
-			res.render('img', {
+			res.render('displayimg', {
 				title: `imgsh - ${img.shorturl}`,
 				imgsrc: img.filename,
 			})
