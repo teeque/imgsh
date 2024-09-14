@@ -5,6 +5,7 @@ WORK IN PROGRESS
 Anonymous Image and Text uploading Platform with autodelete and sharex integration.
 
 ## Setup
+
 ```
 npm install
 ```

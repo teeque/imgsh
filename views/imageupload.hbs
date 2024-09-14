@@ -1,28 +1,35 @@
 <div class="main-container">
-<div class="wrapper">
-  
-  <div class="flexthis">
-    <h1 class="banner unselectable">imgsh</h1>
-    <a href="/code" class="pushright changepage">&gt;</a>
-
-  </div>
-    
-    <div class="innercontainer" id="imgsh">
-        <!-- Dropbox -->
-        <div class="drop-zone" id="drop-zone">
-            <form action="/upload" method="post" enctype="multipart/form-data"></form>
-            <input type="file" name="myFile" class="drop-zone__input" id="file" onchange="fileChange();">
-            <div class="drop-zone-info">
-                <div id="fileName">Drop file here or click to upload</div>
-                <div id="fileSize"></div>
-                <progress id="progress" style=""></progress> <span id="prozent"></span>
-            </div>
-            </form>
-        </div>
+  <div class="wrapper">
+    <div class="flexthis">
+      <h1 class="banner unselectable">imgsh</h1>
+      <a href="/code" class="pushright changepage">&gt;</a>
     </div>
-    <div class="footer"><p class="unselectable">&copy; IMGSH 2024</p><a href="https://github.com/teeque87/imgsh">Github</a></div>
-</div>
 
+    <div class="innercontainer" id="imgsh">
+      <!-- Dropbox -->
+      <div class="drop-zone" id="drop-zone">
+        <form action="/upload" method="post" enctype="multipart/form-data">
+          <input
+            type="file"
+            name="myFile"
+            class="drop-zone__input"
+            id="file"
+            onchange="fileChange();"
+          />
+          <div class="drop-zone-info">
+            <div id="fileName">Drop file here or click to upload</div>
+            <div id="fileSize"></div>
+            <progress id="progress" style=""></progress>
+            <span id="prozent"></span>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="footer">
+      <p class="unselectable">&copy; IMGSH 2024</p>
+      <a href="https://github.com/teeque87/imgsh">Github</a>
+    </div>
+  </div>
 </div>
 
 <!-- The Modal -->
@@ -32,11 +39,23 @@
     <div id="modal-container">
       <span class="closeSpan">&times;</span>
       <div class="copy-link">
-        <input type="text" class="copy-link-input" id="urlInput" placeholder="URL to Image" readonly>
+        <input
+          type="text"
+          class="copy-link-input"
+          id="urlInput"
+          placeholder="URL to Image"
+          readonly
+        />
         <button type="button" class="copy-link-button">copy</button>
       </div>
       <div class="copy-link">
-        <input type="text" class="copy-link-input" id="deleteurlInput" placeholder="Delete URL" readonly>
+        <input
+          type="text"
+          class="copy-link-input"
+          id="deleteurlInput"
+          placeholder="Delete URL"
+          readonly
+        />
         <button type="button" class="copy-link-button">copy</button>
       </div>
     </div>
