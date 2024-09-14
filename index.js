@@ -46,6 +46,7 @@ app.set("view engine", "hbs")
 app.use(express.static(path.join(__dirname, "static")))
 app.use(express.static(path.join(__dirname, "uploads")))
 
+// File upload filter for images
 const uploadFilter = function (req, file, cb) {
     const ext = path.extname(file.originalname).toLowerCase()
     const mimetyp = file.mimetype
@@ -62,11 +63,13 @@ const uploadFilter = function (req, file, cb) {
         cb(null, false)
     }
 }
+// Filename generator for uploaded files
 const fnamegen = function (req, file, cb) {
     file.filename = uid() + path.extname(file.originalname).toLowerCase()
     cb(null, file.filename)
 }
 
+// Multer middleware for file uploads
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         const uploadfolder = "./uploads/"
@@ -80,14 +83,18 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage, fileFilter: uploadFilter })
 
 /* Routes Definitions */
+
+// Route to display the image upload page which is also the root page
 app.get("/", (req, res) => {
     res.render("imageupload", { title: setTitle(req) })
 })
 
+// Route to display the code upload page
 app.get("/code", (req, res) => {
     res.render("code", { title: "codesh" })
 })
 
+// Route to upload images
 app.post("/upload", upload.single("file"), async (req, res) => {
     if (req.file) {
         const maxFileSize = 5 * 1024 * 1024 // 5 MiB
@@ -116,7 +123,8 @@ app.post("/upload", upload.single("file"), async (req, res) => {
     }
 })
 
-app.post("/upload/code", async (req, res) => {
+// Route to upload code snippets
+app.post("/upload/code", upload.none(), async (req, res) => {
     const { code, password, days } = req.body
     if (!code) {
         return res.status(400).send({ message: "No code provided." })
@@ -143,15 +151,16 @@ app.post("/upload/code", async (req, res) => {
     })
 })
 
+// Route to display the code based on the short URL given.
 app.get("/code/:shorturl", async (req, res) => {
     const { shorturl } = req.params
     const codeEntry = await Code.findOne({ shorturl: shorturl })
-    if (!codeEntry) {
-        return res.status(404).send({ message: "Code not found." })
-    }
-    if (codeEntry.secure) {
-        // Render password input page
+    if (!codeEntry || codeEntry == null) {
+        res.redirect("/code")
+    } else if (codeEntry.secure) {
+        // Check if Password is given as a query parameter
         if (req.query.password != null) {
+            // Check if the password is correct and render the code if valid
             const isValid = await checkPassword(
                 req.query.password,
                 codeEntry.pwd
@@ -168,11 +177,11 @@ app.get("/code/:shorturl", async (req, res) => {
             res.render("password", { shorturl: shorturl })
         }
     } else {
-        // Render code display page
         res.render("displaycode", { code: codeEntry.data })
     }
 })
 
+// Route to delete an imaged based on the short URL given.
 app.get("/delete/:img", async (req, res) => {
     const img = await Image.findOne({ shorturl: req.params.img })
     if (!img) {
@@ -184,6 +193,19 @@ app.get("/delete/:img", async (req, res) => {
     })
 })
 
+// Route to delete a code snippet based on the short URL given.
+app.get("/delete/code/:code", async (req, res) => {
+    const code = await Code.findOne({ shorturl: req.params.code })
+    if (!code) {
+        return res.redirect("/code")
+    }
+    await code.delete()
+    res.status(200).send({
+        message: "File sucessfully deleted: " + code.shorturl,
+    })
+})
+
+// Route to display an image based on the short URL
 app.get("/:img", async (req, res) => {
     if (req.params.img !== null && req.params.img.length == 5) {
         let img = await Image.findOne({ shorturl: req.params.img })
@@ -199,7 +221,8 @@ app.get("/:img", async (req, res) => {
     }
 })
 
-cron.schedule("*/5 * * * *", async () => {
+// Image Cleanup Job for deleting images based on the lasthit or createdAt property in the MongoDB Database
+cron.schedule("*/10 * * * *", async () => {
     const maxLastHitAge = 7 * 24 * 60 * 60 * 1000 // 7 days in milliseconds
     const now = Date.now()
     console.log(new Date().toLocaleString() + ": Running Image Cleanup Job")
@@ -212,6 +235,20 @@ cron.schedule("*/5 * * * *", async () => {
             console.log(
                 `Deleted image at /${img.shorturl} Filename: ${img.origName}`
             )
+        }
+    }
+})
+// Code Cleanup Job for deleting expired codes based on the expireDate in the MongoDB Database
+cron.schedule("*/1 * * * *", async () => {
+    const now = Date.now()
+    console.log(new Date().toLocaleString() + ": Running Code Cleanup Job")
+    const codes = await Code.find()
+
+    for (const code of codes) {
+        const expireDate = code.expireDate.getTime()
+        if (now > expireDate) {
+            await code.delete()
+            console.log(`Deleted code at /${code.shorturl}`)
         }
     }
 })
