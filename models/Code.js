@@ -1,32 +1,32 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose")
+const bcrypt = require("bcrypt")
+
 const codeSchema = new mongoose.Schema({
     data: String,
     shorturl: String,
-    hits: {
-        type: Number,
-        default: 0
-    },
     uploaderIP: String,
     secure: {
         type: Boolean,
-        default: false
+        default: false,
     },
     pwd: String,
-    daysToSave: Number,
     createdAt: {
         type: Date,
         immutable: true,
-        default: () => Date.now()
+        default: () => Date.now(),
     },
-    lasthit: {
+    expireDate: {
         type: Date,
-        default: () => Date.now()
+        default: () => Date.now(),
+    },
+})
+
+codeSchema.pre("save", async function (next) {
+    if (this.isModified("pwd")) {
+        const salt = await bcrypt.genSalt(10)
+        this.pwd = await bcrypt.hash(this.pwd, salt)
     }
+    next()
 })
 
-codeSchema.pre('save', function(next){
-    this.lasthit = Date.now();
-    next();
-})
-
-module.exports = mongoose.model('Code', codeSchema);
+module.exports = mongoose.model("Code", codeSchema)
