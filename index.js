@@ -10,7 +10,6 @@ const multer = require("multer")
 const ShortUniqueId = require("short-unique-id")
 const uid = new ShortUniqueId({ length: config.uidlength })
 const cron = require("node-cron")
-const bodyParser = require("body-parser")
 const bcrypt = require("bcrypt")
 
 /* MongoDB Schemas */
@@ -38,8 +37,6 @@ app.engine(
   })
 )
 app.use(express.urlencoded({ extended: true }))
-app.use(bodyParser.urlencoded({ extended: true }))
-app.use(bodyParser.json())
 app.set("views", path.join(__dirname, "views"))
 app.set("view engine", "hbs")
 app.use(express.static(path.join(__dirname, "static")))
@@ -232,8 +229,9 @@ cron.schedule("*/10 * * * *", async () => {
     }
   }
 })
+
 // Code Cleanup Job for deleting expired codes based on the expireDate in the MongoDB Database
-cron.schedule("*/1 * * * *", async () => {
+cron.schedule("*/10 * * * *", async () => {
   const now = Date.now()
   console.log(new Date().toLocaleString() + ": Running Code Cleanup Job")
   const codes = await Code.find()
