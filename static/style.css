@@ -38,7 +38,7 @@ p {
   display: grid;
   /* grid-template-columns: minmax(0, 1fr) 1fr; */
   grid-template-rows: 1fr;
-  min-height: 100dvh;
+  min-height: 100vh;
 }
 .wrapper {
   background: #34495e;
@@ -342,4 +342,36 @@ input:focus {
 pre {
   margin: 0;
   padding: 2rem 0;
+}
+
+.passcontainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100dvh;
+  color: white;
+  background-color: #2c3e50;
+}
+.passwordForm {
+  padding: 2rem;
+  font-size: 1rem;
+  background-color: #34495e;
+  border: 1px solid black;
+}
+.passwordForm input[type="password"] {
+  height: 30px;
+  width: 130px;
+}
+.btn-passwd {
+  background-color: #1aaa56;
+  color: black;
+  border-radius: 2px;
+  border: 1px solid black;
+  height: 30px;
+  width: 86px;
+  text-transform: uppercase;
+}
+
+.btn-passwd:hover {
+  background-color: #47d8bb;
 }
