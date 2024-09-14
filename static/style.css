@@ -234,19 +234,6 @@ input:focus {
   height: auto;
 }
 
-/*
-@media only screen and (max-width: 1200px) {
-  .main-container {
-    grid-template-columns: 1fr;
-  }
-  #imgsh {
-    height: 40vh;
-  }
-  #code {
-    height: 60vh;
-  }
-}
-*/
 /* The Modal (background) */
 .modal {
   display: none;
@@ -344,4 +331,15 @@ input:focus {
 }
 .code .changepage {
   background-color: #3498db;
+}
+
+.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 0 !important;
+}
+
+pre {
+  margin: 0;
+  padding: 2rem 0;
 }

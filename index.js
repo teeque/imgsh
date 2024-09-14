@@ -159,18 +159,17 @@ app.get("/code/:shorturl", async (req, res) => {
       // Check if the password is correct and render the code if valid
       const isValid = await checkPassword(req.query.password, codeEntry.pwd)
       if (isValid) {
-        res.render("displaycode", { code: codeEntry.data })
+        res.render("displaycode", { code: codeEntry.data, shorturl: shorturl })
       } else {
         res.render("password", {
           shorturl: shorturl,
-          error: "Incorrect password.",
         })
       }
     } else {
       res.render("password", { shorturl: shorturl })
     }
   } else {
-    res.render("displaycode", { code: codeEntry.data })
+    res.render("displaycode", { code: codeEntry.data, shorturl: shorturl })
   }
 })
 
@@ -181,9 +180,7 @@ app.get("/delete/:img", async (req, res) => {
     return res.redirect("/")
   }
   await img.delete()
-  res.status(200).send({
-    message: "File sucessfully deleted: " + img.origName,
-  })
+  res.redirect("/")
 })
 
 // Route to delete a code snippet based on the short URL given.
@@ -193,9 +190,7 @@ app.get("/delete/code/:code", async (req, res) => {
     return res.redirect("/code")
   }
   await code.delete()
-  res.status(200).send({
-    message: "File sucessfully deleted: " + code.shorturl,
-  })
+  res.redirect("/code")
 })
 
 // Route to display an image based on the short URL
