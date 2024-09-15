@@ -11,6 +11,7 @@ const ShortUniqueId = require("short-unique-id")
 const uid = new ShortUniqueId({ length: config.uidlength })
 const cron = require("node-cron")
 const bcrypt = require("bcrypt")
+const cors = require("cors")
 
 /* MongoDB Schemas */
 const Image = require("./models/Image")
@@ -27,7 +28,14 @@ async function main() {
   if (mongoose.connection.readyState == 1) console.log("Connected to Database.")
 }
 
+/* CORS Options */
+const corsOptions = {
+  origin: 'http://example.com', // Allow only this origin
+  optionsSuccessStatus: 200 // Some legacy browsers choke on 204
+}
+
 /* App Middleware */
+app.use(cors(corsOptions))
 app.engine(
   "hbs",
   hbs.engine({
