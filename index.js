@@ -11,6 +11,7 @@ const ShortUniqueId = require("short-unique-id")
 const uid = new ShortUniqueId({ length: config.uidlength })
 const cron = require("node-cron")
 const bcrypt = require("bcrypt")
+const mime = require("mime-types")
 const cors = require("cors")
 
 /* MongoDB Schemas */
@@ -30,8 +31,8 @@ async function main() {
 
 /* CORS Options */
 const corsOptions = {
-  origin: 'http://example.com', // Allow only this origin
-  optionsSuccessStatus: 200 // Some legacy browsers choke on 204
+  origin: "*", // Allow only this origin
+  optionsSuccessStatus: 200, // Some legacy browsers choke on 204
 }
 
 /* App Middleware */
@@ -208,12 +209,45 @@ app.get("/:img", async (req, res) => {
     if (img) {
       img.hits = img.hits + 1
       await img.save()
+      const domain = "https://" + req.get("host") + "/"
+      const directurl = domain + img.filename
       res.render("displayimg", {
         title: `imgsh - ${img.shorturl}`,
         imgsrc: img.filename,
+        shorturl: domain + img.shorturl,
+        directurl: directurl,
+        layout: false,
       })
     }
     if (!img) return res.redirect("/")
+  }
+})
+
+app.head("/:img", async (req, res) => {
+  if (req.params.img !== null && req.params.img.length == 5) {
+    console.log("test")
+    let img = await Image.findOne({ shorturl: req.params.img })
+    if (img) {
+      const imagePath = path.join(__dirname, "uploads", img.filename)
+
+      if (fs.existsSync(imagePath)) {
+        const mimeType = mime.lookup(imagePath)
+        console.log(mimeType)
+
+        if (mimeType) {
+          res.status(200)
+          res.set("Content-Type", mimeType)
+          res.set("Content-Length", fs.statSync(imagePath).size)
+          res.end()
+        } else {
+          res.status(415).end() // 415 = Unsupported Media Type
+        }
+      } else {
+        res.status(404).end() // 404, not found
+      }
+    } else {
+      res.status(404).end() // 404, not found
+    }
   }
 })
 
