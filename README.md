@@ -1,7 +1,8 @@
 ## imgsh
 
 Anonymous image and text uploading platform with autodeletion.
-[https://imgsh.cc/](https://imgsh.cc/)
+
+DEMO:[https://imgsh.cc/](https://imgsh.cc/)
 
 ## Setup
 
