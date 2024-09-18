@@ -5,7 +5,7 @@ Anonymous image and text uploading platform with autodeletion.
 
 ## Setup
 
-### Prequesites
+### Prerequisites
 MongoDB Server
 Nodejs
 
