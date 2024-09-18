@@ -38,7 +38,7 @@ p {
   display: grid;
   /* grid-template-columns: minmax(0, 1fr) 1fr; */
   grid-template-rows: 1fr;
-  min-height: 100vh;
+  min-height: 100dvh;
 }
 .wrapper {
   background: #34495e;
@@ -230,7 +230,7 @@ input:focus {
 /*  Image Display */
 .displayed-image {
   max-width: 100%;
-  max-height: 100vh;
+  max-height: 100dvh;
   height: auto;
 }
 
